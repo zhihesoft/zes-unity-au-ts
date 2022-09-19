@@ -1,0 +1,15 @@
+{
+    "name": "zes.au.ts",
+    "references": [
+		"com.tencent.puerts.core"
+	],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
