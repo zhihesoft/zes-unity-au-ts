@@ -11,8 +11,8 @@ public class TestApp : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         app = gameObject.AddComponent<TSApp>();
-        // var script = File.ReadAllText("./Typescripts/out/main.bytes");
-        var script = "./Typescripts/dist/index.js";
+        var script = File.ReadAllText("./Typescripts/out/main.bytes");
+        //var script = "./Typescripts/dist/index.js";
         app.Run(script, (env) =>
         {
             env.UsingFunc<int, string>();
@@ -21,8 +21,5 @@ public class TestApp : MonoBehaviour
         var str = fun(1024);
 
         Debug.Log(str);
-
-
-        // app.Run(script);
     }
 }
