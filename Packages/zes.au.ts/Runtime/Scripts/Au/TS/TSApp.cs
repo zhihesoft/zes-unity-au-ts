@@ -1,66 +1,36 @@
 ﻿using Puerts;
 using System;
-using UnityEngine;
 
 namespace Au.TS
 {
-    public class TSApp : MonoBehaviour
+    public class TSApp
     {
-        private JSLoader loader;
-        private JsEnv env;
-        private Action<JsEnv> initAction;
-        private string entryFile = "main.bytes";
-
-        public void Run(string scriptOrPath, Action<JsEnv> initAction = null)
+        public TSApp(Action<JsEnv> initAction = null)
         {
             this.initAction = initAction;
-            Restart(scriptOrPath);
         }
 
-        public void Restart(string scriptOrPath)
+        private readonly Action<JsEnv> initAction;
+        private JSLoader loader;
+
+        public JsEnv env { get; private set; }
+
+        public void Run(string scriptChunk, string sourceFile)
         {
-            bool fileMode = scriptOrPath.StartsWith(".");
-            env?.Dispose();
-            CreateLoader(fileMode).Init(scriptOrPath);
+            loader = new JSLoader(scriptChunk, sourceFile);
             env = new JsEnv(loader);
             initAction?.Invoke(env);
-
-            if (fileMode)
-            {
-                Eval(scriptOrPath);
-            }
-            else
-            {
-                Eval(entryFile);
-            }
-
+            env.Eval("require('_');");
         }
 
-        public T Eval<T>(string script, string func)
+        public T Func<T>(string func)
         {
-            return env.Eval<T>($"var m = require('{script}'); m.{func};");
+            return env.Eval<T>($"require('_').{func};");
         }
 
-        public void Eval(string script)
-        {
-            env.Eval($"require('{script}');");
-            // env.ExecuteModule(script);
-        }
-
-        private void Update()
+        public void Tick()
         {
             env?.Tick();
-        }
-
-        private JSLoader CreateLoader(bool fileMode)
-        {
-            if (loader != null)
-            {
-                loader.Dispose();
-            }
-
-            loader = fileMode ? new JSLoaderEditor() : new JSLoaderRuntime();
-            return loader;
         }
     }
 }

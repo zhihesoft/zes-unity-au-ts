@@ -6,20 +6,26 @@ using UnityEngine;
 public class TestApp : MonoBehaviour
 {
     TSApp app;
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
 
-        app = gameObject.AddComponent<TSApp>();
-        var script = File.ReadAllText("./Typescripts/out/main.bytes");
-        //var script = "./Typescripts/dist/index.js";
-        app.Run(script, (env) =>
+        app = new TSApp((env) =>
         {
             env.UsingFunc<int, string>();
         });
-        var fun = app.Eval<Func<int, string>>("./Typescripts/dist/index.js", "i18n");
+        var script = File.ReadAllText("./Typescripts/out/main.bytes");
+        app.Run(script, "./Typescripts/out/main.bytes");
+        //var script = "./Typescripts/dist/index.js";
+        var fun = app.Func<Func<int, string>>("i18n");
         var str = fun(1024);
 
         Debug.Log(str);
+    }
+
+    private void Update()
+    {
+        app.Tick();
     }
 }

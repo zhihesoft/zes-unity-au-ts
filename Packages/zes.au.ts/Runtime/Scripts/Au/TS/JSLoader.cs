@@ -1,19 +1,22 @@
 ﻿using Puerts;
-using UnityEngine;
 
 namespace Au.TS
 {
-    internal abstract class JSLoader : ILoader
+    internal class JSLoader : ILoader
     {
+        public JSLoader(string chunk, string sourceFile)
+        {
+            this.chunk = chunk;
+            this.sourceFile = sourceFile;
+        }
+
+        protected readonly string chunk;
+
+        protected readonly string sourceFile;
 
         protected const string puerPrefix = "puerts";
 
         protected ILoader puerLoader = new DefaultLoader();
-
-        public abstract bool Init(string pathOrScript);
-        public abstract void Dispose();
-        protected abstract bool CheckFileExists(string filepath);
-        protected abstract string DoReadFile(string filepath, out string debugpath);
 
         public bool FileExists(string filepath)
         {
@@ -21,7 +24,7 @@ namespace Au.TS
             {
                 return puerLoader.FileExists(filepath);
             }
-            return CheckFileExists(filepath);
+            return true;
         }
 
         public string ReadFile(string filepath, out string debugpath)
@@ -30,7 +33,8 @@ namespace Au.TS
             {
                 return puerLoader.ReadFile(filepath, out debugpath);
             }
-            return DoReadFile(filepath, out debugpath);
+            debugpath = sourceFile;
+            return chunk;
         }
 
     }

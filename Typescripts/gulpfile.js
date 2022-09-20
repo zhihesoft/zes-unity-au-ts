@@ -1,4 +1,4 @@
-const { src, dest } = require('gulp');
+const { src, dest, watch } = require('gulp');
 const browserify = require("browserify");
 const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
@@ -25,7 +25,7 @@ function build() {
         .pipe(uglify({
             "keep_fnames": "true"
         }))
-        .pipe(sourcemaps.write('./'))
+        .pipe(sourcemaps.write("./"))
         .pipe(dest("out"));
 
     // return src(['dist/*.js', 'node_modules/**/*.js'])
@@ -33,4 +33,9 @@ function build() {
     //     .pipe(dest("./out/"));
 }
 
+function watchSource() {
+    watch(["src/*.ts"], build);
+}
+
 exports.build = build;
+exports.watch = watchSource;
