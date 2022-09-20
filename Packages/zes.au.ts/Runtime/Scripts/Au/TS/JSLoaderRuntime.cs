@@ -1,4 +1,6 @@
-﻿namespace Au.TS
+﻿using UnityEngine;
+
+namespace Au.TS
 {
     internal class JSLoaderRuntime : JSLoader
     {

@@ -9,6 +9,7 @@ namespace Au.TS
         private JSLoader loader;
         private JsEnv env;
         private Action<JsEnv> initAction;
+        private string entryFile = "main.bytes";
 
         public void Run(string scriptOrPath, Action<JsEnv> initAction = null)
         {
@@ -18,21 +19,32 @@ namespace Au.TS
 
         public void Restart(string scriptOrPath)
         {
+            bool fileMode = scriptOrPath.StartsWith(".");
             env?.Dispose();
-            CreateLoader().Init(scriptOrPath);
+            CreateLoader(fileMode).Init(scriptOrPath);
             env = new JsEnv(loader);
             initAction?.Invoke(env);
+
+            if (fileMode)
+            {
+                Eval(scriptOrPath);
+            }
+            else
+            {
+                Eval(entryFile);
+            }
+
         }
 
-        public T Eval<T>(string script)
+        public T Eval<T>(string script, string func)
         {
-            // return env.Eval<T>($"var m = require('{scriptEntry}'); m.i18n");
-            return env.Eval<T>($"{script}");
+            return env.Eval<T>($"var m = require('{script}'); m.{func};");
         }
 
         public void Eval(string script)
         {
-            env.Eval($"{script}");
+            env.Eval($"require('{script}');");
+            // env.ExecuteModule(script);
         }
 
         private void Update()
@@ -40,19 +52,14 @@ namespace Au.TS
             env?.Tick();
         }
 
-        private JSLoader CreateLoader()
+        private JSLoader CreateLoader(bool fileMode)
         {
             if (loader != null)
             {
                 loader.Dispose();
             }
 
-            loader =
-#if UNITY_EDITOR
-                new JSLoaderEditor();
-#else   
-                new JSLoaderRuntime();
-#endif
+            loader = fileMode ? new JSLoaderEditor() : new JSLoaderRuntime();
             return loader;
         }
     }

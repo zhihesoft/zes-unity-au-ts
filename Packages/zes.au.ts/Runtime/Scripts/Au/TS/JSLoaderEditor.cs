@@ -10,7 +10,6 @@ namespace Au.TS
             return true;
         }
 
-
         public override void Dispose()
         {
         }
@@ -26,7 +25,6 @@ namespace Au.TS
         {
             var path = Path.Combine(filepath);
             debugpath = path;
-            // logger.Debug($"load js file: {path}");
             return File.ReadAllText(path, Encoding.UTF8);
         }
     }
