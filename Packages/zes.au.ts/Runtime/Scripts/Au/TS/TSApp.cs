@@ -8,12 +8,12 @@ namespace Au.TS
     /// </summary>
     public class TSApp : IDisposable
     {
-        public TSApp(Action<JsEnv> initAction = null)
+        public TSApp(StartupInfo startupInfo = null)
         {
-            this.initAction = initAction;
+            this.startupInfo = startupInfo ?? new StartupInfo();
         }
 
-        private readonly Action<JsEnv> initAction;
+        private readonly StartupInfo startupInfo;
 
         private JSLoader loader;
 
@@ -22,9 +22,9 @@ namespace Au.TS
         public void Run(string scriptChunk)
         {
             loader = new JSLoader(scriptChunk);
-            env = new JsEnv(loader, 9229);
+            env = new JsEnv(loader, startupInfo.debugPort);
             CommonInit(env);
-            initAction?.Invoke(env);
+            startupInfo.onInit?.Invoke(env);
             env.Eval($"require('{loader.rootFile}');");
         }
 
