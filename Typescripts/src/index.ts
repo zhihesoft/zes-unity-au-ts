@@ -19,7 +19,7 @@ function wait(): Promise<void> {
 
 let watiCount = 0;
 
-export async function i18n(id: number): Promise<string> {
+export function i18n(id: number): string {
     return `id is ${id}`;
 }
 

@@ -1,5 +1,6 @@
 ﻿using Puerts;
 using System;
+using UnityEngine.Assertions;
 
 namespace Au.TS
 {
@@ -8,9 +9,12 @@ namespace Au.TS
     /// </summary>
     public class TSApp : IDisposable
     {
-        public TSApp(StartupInfo startupInfo = null)
+        public TSApp(string scriptChunk) : this(new StartupInfo { scriptChunk = scriptChunk }) { }
+
+        public TSApp(StartupInfo startupInfo)
         {
-            this.startupInfo = startupInfo ?? new StartupInfo();
+            Assert.IsNotNull(startupInfo);
+            this.startupInfo = startupInfo;
         }
 
         private readonly StartupInfo startupInfo;
@@ -19,9 +23,9 @@ namespace Au.TS
 
         public JsEnv env { get; private set; }
 
-        public void Run(string scriptChunk)
+        public void Run()
         {
-            loader = new JSLoader(scriptChunk);
+            loader = new JSLoader(startupInfo.scriptChunk);
             env = new JsEnv(loader, startupInfo.debugPort);
             CommonInit(env);
             startupInfo.onInit?.Invoke(env);
@@ -34,7 +38,7 @@ namespace Au.TS
             env = null;
         }
 
-        public T Func<T>(string func)
+        public T GetFunc<T>(string func)
         {
             return env.Eval<T>($"require('{loader.rootFile}').{func};");
         }
