@@ -1,22 +1,31 @@
 ﻿using Puerts;
+using System.IO;
+using UnityEngine;
 
 namespace Au.TS
 {
     internal class JSLoader : ILoader
     {
-        public JSLoader(string chunk, string sourceFile)
+        /// <summary>
+        /// Create a JSLoader
+        /// </summary>
+        /// <param name="chunk">root script chunk or file, if it is a file, must start with '.'</param>
+        public JSLoader(string chunk)
         {
             this.chunk = chunk;
-            this.sourceFile = sourceFile;
+            bundleMode = !chunk.StartsWith(".");
+            rootFile = bundleMode ? "_" : chunk;
         }
 
-        protected readonly string chunk;
+        private readonly bool bundleMode;
 
-        protected readonly string sourceFile;
+        private readonly string chunk;
 
-        protected const string puerPrefix = "puerts";
+        private const string puerPrefix = "puerts";
 
-        protected ILoader puerLoader = new DefaultLoader();
+        private ILoader puerLoader = new DefaultLoader();
+
+        public readonly string rootFile;
 
         public bool FileExists(string filepath)
         {
@@ -24,7 +33,11 @@ namespace Au.TS
             {
                 return puerLoader.FileExists(filepath);
             }
-            return true;
+            if (bundleMode) // always return true in bundle mode
+            {
+                return true;
+            }
+            return File.Exists(filepath);
         }
 
         public string ReadFile(string filepath, out string debugpath)
@@ -33,9 +46,13 @@ namespace Au.TS
             {
                 return puerLoader.ReadFile(filepath, out debugpath);
             }
-            debugpath = sourceFile;
-            return chunk;
+            if (bundleMode) // always return chunk in bundle mode
+            {
+                debugpath = filepath;
+                return chunk;
+            }
+            debugpath = new FileInfo(filepath).FullName + ".map";
+            return File.ReadAllText(filepath);
         }
-
     }
 }

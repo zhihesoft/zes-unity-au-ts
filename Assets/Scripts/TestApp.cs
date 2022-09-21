@@ -16,12 +16,11 @@ public class TestApp : MonoBehaviour
             env.UsingFunc<int, string>();
         });
         var script = File.ReadAllText("./Typescripts/out/main.bytes");
-        app.Run(script, "./Typescripts/out/main.bytes");
+        app.Run("./Typescripts/dist/index.js");
+        //app.Run(script);
         //var script = "./Typescripts/dist/index.js";
-        var fun = app.Func<Func<int, string>>("i18n");
-        var str = fun(1024);
-
-        Debug.Log(str);
+        var fun = app.Func<Action>("testFunc");
+        fun();
     }
 
     private void Update()

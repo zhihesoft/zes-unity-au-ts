@@ -1,4 +1,4 @@
-const { src, dest, watch } = require('gulp');
+const { dest, watch, task } = require('gulp');
 const browserify = require("browserify");
 const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
@@ -10,10 +10,11 @@ function build() {
 
     return browserify({
         basedir: '.',
-        standalone: "livexports",
+        standalone: "zes",
         debug: true,
         ignoreMissing: true,
-        entries: ['./src/index.ts'],
+        entries: ['./src'],
+        extensions: ['.ts'],
         cache: {},
         packageCache: {}
     })
@@ -22,9 +23,7 @@ function build() {
         .pipe(source('main.bytes'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(uglify({
-            "keep_fnames": "true"
-        }))
+        .pipe(uglify({ "keep_fnames": "true" }))
         .pipe(sourcemaps.write("./"))
         .pipe(dest("out"));
 
