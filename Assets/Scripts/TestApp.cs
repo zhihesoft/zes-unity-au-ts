@@ -11,10 +11,7 @@ public class TestApp : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        app = new TSApp((env) =>
-        {
-            env.UsingFunc<int, string>();
-        });
+        app = new TSApp();
         var script = File.ReadAllText("./Typescripts/out/main.bytes");
         app.Run("./Typescripts/dist/index.js");
         //app.Run(script);
