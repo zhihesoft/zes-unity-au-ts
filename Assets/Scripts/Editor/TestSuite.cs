@@ -30,8 +30,6 @@ public class TestSuite : IPrebuildSetup, IPostBuildCleanup
         app.Dispose();
     }
 
-
-
     public void Cleanup()
     {
     }

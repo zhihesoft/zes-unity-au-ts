@@ -15,17 +15,18 @@ namespace Au.TS
         {
             Assert.IsNotNull(startupInfo);
             this.startupInfo = startupInfo;
+            loader = new JSLoader(startupInfo.scriptChunk);
         }
 
         private readonly StartupInfo startupInfo;
 
-        private JSLoader loader;
+        private readonly JSLoader loader;
 
         public JsEnv env { get; private set; }
 
         public void Run()
         {
-            loader = new JSLoader(startupInfo.scriptChunk);
+            Assert.IsNull(env);
             env = new JsEnv(loader, startupInfo.debugPort);
             CommonInit(env);
             startupInfo.onInit?.Invoke(env);
