@@ -13,7 +13,7 @@ namespace Au.TS
         public JSLoader(string chunk)
         {
             this.chunk = chunk;
-            bundleMode = !chunk.StartsWith(".");
+            bundleMode = !File.Exists(chunk);
             rootFile = bundleMode ? "_" : chunk;
         }
 

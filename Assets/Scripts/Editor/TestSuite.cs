@@ -10,7 +10,7 @@ public class TestSuite : IPrebuildSetup, IPostBuildCleanup
     [Test]
     public void ForFile()
     {
-        TSApp app = new TSApp("./Typescripts/dist/index.js");
+        TSApp app = new TSApp("Typescripts/dist/index.js");
         app.Run();
         var func = app.GetFunc<Func<int, string>>("i18n");
         var ret = func(1024);
@@ -21,7 +21,7 @@ public class TestSuite : IPrebuildSetup, IPostBuildCleanup
     [Test]
     public void ForChunk()
     {
-        var script = File.ReadAllText("./Typescripts/out/main.bytes");
+        var script = File.ReadAllText("Typescripts/out/main.bytes");
         TSApp app = new TSApp(script);
         app.Run();
         var func = app.GetFunc<Func<int, string>>("i18n");
