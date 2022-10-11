@@ -41,14 +41,16 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0",
-    "com.tencent.puerts.core": "1.4.0-preview.6"
+    "com.tencent.puerts.core": "1.4.0-rc.2",
+    "com.tencent.puerts.commonjs": "1.1.0-pre.0"
   },
   "scopedRegistries": [
     {
-      "name": "package.openupm.com",
-      "url": "https://package.openupm.com",
+      "name": "package.openupm.cn",
+      "url": "https://package.openupm.cn",
       "scopes": [
         "com.openupm",
+        "com.tencent.puerts.commonjs",
         "com.tencent.puerts.core"
       ]
     }
