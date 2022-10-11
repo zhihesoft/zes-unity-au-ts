@@ -2,7 +2,6 @@
 using Au.TS;
 using Puerts;
 using System;
-using System.IO;
 using UnityEngine;
 
 public class TestApp : MonoBehaviour
@@ -20,7 +19,7 @@ public class TestApp : MonoBehaviour
         Puerts.ThirdParty.CommonJS.InjectSupportForCJS(env);
         env.UsingFunc<int, string>();
         var func = env.Eval<Func<int, string>>("var m = require('./Typescripts/dist/index.js'); m.i18n;");
-        // var func = env.ExecuteModule<Func<int, string>>("./Typescripts/dist/index.js", "i18n");
+        // var func = env.ExecuteModule<Func<int, string>>("./Typescripts/dist/index.mjs", "i18n");
         var test = func(100);
         Debug.Log(test);
 

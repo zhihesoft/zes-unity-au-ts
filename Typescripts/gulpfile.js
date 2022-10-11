@@ -1,5 +1,6 @@
 const { dest, watch, task } = require('gulp');
 const browserify = require("browserify");
+const babelify = require("babelify");
 const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
 const tsify = require("tsify");
@@ -19,14 +20,13 @@ function build() {
         packageCache: {}
     })
         .plugin(tsify)
-        // .bundle()
-        // .pipe(source('main.bytes'))
-        // .pipe(buffer())
-        // .pipe(sourcemaps.init({ loadMaps: true }))
-        // .pipe(uglify({ "keep_fnames": "true" }))
-        // .pipe(sourcemaps.write("./"))
-        // .pipe(dest("out"))
-        ;
+        .bundle()
+        .pipe(source('main.bytes'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(uglify({ "keep_fnames": "true" }))
+        .pipe(sourcemaps.write("./"))
+        .pipe(dest("out"));
 
     // return src(['dist/*.js', 'node_modules/**/*.js'])
     //     .pipe(concat("main.js"))
