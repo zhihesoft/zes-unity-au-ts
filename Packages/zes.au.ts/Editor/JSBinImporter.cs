@@ -41,6 +41,8 @@ namespace Au.TS
                     DirCopy(dir, new DirectoryInfo(Path.Combine("Assets", "Plugins", dir.Name)));
                 });
             Alert("DONE");
+
+            AssetDatabase.Refresh();
         }
 
         static void Alert(string message)
