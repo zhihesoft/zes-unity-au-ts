@@ -1,7 +1,8 @@
 {
     "name": "zes.au.ts",
     "references": [
-		"com.tencent.puerts.core"
+		"com.tencent.puerts.core",
+        "com.tencent.puerts.commonjs"
 	],
     "includePlatforms": [],
     "excludePlatforms": [],

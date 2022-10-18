@@ -10,9 +10,10 @@ public class TestSuite : IPrebuildSetup, IPostBuildCleanup
     [Test]
     public void ForFile()
     {
-        TSApp app = new TSApp("Typescripts/dist/index.js");
+        TSApp app = new TSApp("./Typescripts/dist/index.js");
         app.Run();
         var func = app.GetFunc<Func<int, string>>("i18n");
+        Assert.IsNotNull(func, "i18n function should not be null");
         var ret = func(1024);
         Assert.AreEqual(ret, $"id is 1024");
         app.Dispose();

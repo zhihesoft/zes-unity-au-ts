@@ -1,5 +1,8 @@
 ﻿using Puerts;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Au.TS
@@ -9,28 +12,53 @@ namespace Au.TS
     /// </summary>
     public class TSApp : IDisposable
     {
-        public TSApp(string scriptChunk) : this(new StartupInfo { scriptChunk = scriptChunk }) { }
+        /// <summary>
+        /// Create a new TSApp instance
+        /// </summary>
+        /// <param name="script">script file or source chunk</param>
+        public TSApp(string script)
+            : this(new StartupInfo { script = script })
+        { }
 
+        /// <summary>
+        /// Create a new TSApp instance
+        /// </summary>
+        /// <param name="startupInfo">startup info</param>
         public TSApp(StartupInfo startupInfo)
         {
             Assert.IsNotNull(startupInfo);
             this.startupInfo = startupInfo;
-            loader = new JSLoader(startupInfo.scriptChunk);
+            rootFile = startupInfo.IsScriptFile() ? startupInfo.script : "__root__";
         }
 
         private readonly StartupInfo startupInfo;
-
-        private readonly JSLoader loader;
-
-        public JsEnv env { get; private set; }
+        private JSLoader jsLoader;
+        private JsEnv env;
+        private string rootFile = "";
 
         public void Run()
         {
             Assert.IsNull(env);
-            env = new JsEnv(loader, startupInfo.debugPort);
+            if (startupInfo.IsScriptFile())
+            {
+                jsLoader = new JSLoader(string.Empty);
+            }
+            else
+            {
+                jsLoader = new JSLoader(startupInfo.script);
+            }
+            env = new JsEnv(jsLoader, startupInfo.debugPort);
+            Puerts.ThirdParty.CommonJS.InjectSupportForCJS(env);
+            //await env.WaitDebuggerAsync();
             CommonInit(env);
-            startupInfo.onInit?.Invoke(env);
-            env.Eval($"require('{loader.rootFile}');");
+            startupInfo.initActions?.Invoke(env);
+            env.Eval($"require('{rootFile}');");
+        }
+
+        public void Restart()
+        {
+            Dispose();
+            Run();
         }
 
         public void Dispose()
@@ -41,7 +69,7 @@ namespace Au.TS
 
         public T GetFunc<T>(string func)
         {
-            return env.Eval<T>($"require('{loader.rootFile}').{func};");
+            return env.Eval<T>($"var m = require('{rootFile}'); m.{func};");
         }
 
         public void Tick()
@@ -55,9 +83,8 @@ namespace Au.TS
             env.UsingAction<float>();
             env.UsingAction<string>();
             env.UsingAction<string, string>();
-
             env.UsingFunc<string, string>();
-            env.UsingFunc<int, string>();           // for i18n
+            env.UsingFunc<int, string>();
         }
     }
 }

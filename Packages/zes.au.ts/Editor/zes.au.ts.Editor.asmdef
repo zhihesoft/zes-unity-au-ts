@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "zes.au.ts",
-		"com.tencent.puerts.core"
+		"com.tencent.puerts.core",
+        "com.tencent.puerts.commonjs"
     ],
     "includePlatforms": [
         "Editor"
