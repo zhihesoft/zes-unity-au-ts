@@ -1,8 +1,5 @@
 ﻿using Puerts;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Au.TS
@@ -10,6 +7,7 @@ namespace Au.TS
     /// <summary>
     /// A TS App
     /// </summary>
+    [JSWrap]
     public class TSApp : IDisposable
     {
         /// <summary>

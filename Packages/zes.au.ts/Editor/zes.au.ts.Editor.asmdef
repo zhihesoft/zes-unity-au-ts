@@ -3,7 +3,9 @@
     "rootNamespace": "",
     "references": [
         "zes.au.ts",
+		"Unity.TextMeshPro",
 		"com.tencent.puerts.core",
+		"com.tencent.puerts.core.Editor",
         "com.tencent.puerts.commonjs"
     ],
     "includePlatforms": [

@@ -1,6 +1,7 @@
 {
     "name": "zes.au.ts",
     "references": [
+		"Unity.TextMeshPro",
 		"com.tencent.puerts.core",
         "com.tencent.puerts.commonjs"
 	],

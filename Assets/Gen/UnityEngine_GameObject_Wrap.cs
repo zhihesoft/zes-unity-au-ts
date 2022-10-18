@@ -1,4 +1,6 @@
 ﻿
+using Au.TS;
+
 using System;
 using Puerts;
 
@@ -1044,6 +1046,64 @@ namespace PuertsStaticWrap
         }
         
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_IsNull(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.GameObject;
+        
+                {
+            
+                    {
+                
+                        var result = obj.IsNull();
+                
+                        Puerts.StaticTranslate<bool>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_GetOrAddComponent(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.GameObject;
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<System.Type>(false);
+                    
+                        var result = obj.GetOrAddComponent(Arg0);
+                
+                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_transform(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -1251,7 +1311,9 @@ namespace PuertsStaticWrap
                     { new Puerts.MethodKey { Name = "CompareTag", IsStatic = false}, M_CompareTag },
                     { new Puerts.MethodKey { Name = "FindGameObjectWithTag", IsStatic = true}, F_FindGameObjectWithTag },
                     { new Puerts.MethodKey { Name = "FindGameObjectsWithTag", IsStatic = true}, F_FindGameObjectsWithTag },
-                    { new Puerts.MethodKey { Name = "Find", IsStatic = true}, F_Find }
+                    { new Puerts.MethodKey { Name = "Find", IsStatic = true}, F_Find },
+                    { new Puerts.MethodKey { Name = "IsNull", IsStatic = false}, M_IsNull },
+                    { new Puerts.MethodKey { Name = "GetOrAddComponent", IsStatic = false}, M_GetOrAddComponent }
                 },
                 Properties = new System.Collections.Generic.Dictionary<string, Puerts.PropertyRegisterInfo>()
                 {

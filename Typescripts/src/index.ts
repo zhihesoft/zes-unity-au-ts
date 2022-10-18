@@ -17,6 +17,7 @@ function wait(): Promise<void> {
     })
 }
 
+
 let watiCount = 0;
 
 export function i18n(id: number): string {
