@@ -1,7 +1,7 @@
 {
   "name": "zes.au.ts",
   "displayName": "Au Typescript Lib",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Au Typescript Lib",
   "keywords": [
     "Script"
@@ -16,6 +16,7 @@
     "registry": "https://package.openupm.com"
   },
   "dependencies": {
+	  "com.tencent.puerts.commonjs": "1.1.0-pre.0",
 	  "com.tencent.puerts.core": "1.4.0-preview.6"
   }
 }
