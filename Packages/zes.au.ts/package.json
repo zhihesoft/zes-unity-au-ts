@@ -1,7 +1,7 @@
 {
   "name": "zes.au.ts",
   "displayName": "Au Typescript Lib",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Au Typescript Lib",
   "keywords": [
     "Script"
@@ -17,6 +17,6 @@
   },
   "dependencies": {
 	  "com.tencent.puerts.commonjs": "1.1.0-pre.0",
-	  "com.tencent.puerts.core": "1.4.0-preview.6"
+	  "com.tencent.puerts.core": "@1.4.0-rc.6"
   }
 }
