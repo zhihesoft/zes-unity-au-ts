@@ -77,7 +77,7 @@ namespace Au.TS
                     typeof(Collision),
                     typeof(CanvasScaler),
                     typeof(RawImage),
-                    typeof(RenderTexture),  
+                    typeof(RenderTexture),
                     typeof(Texture),
                     typeof(AudioListener),
                     typeof(AudioSource),
@@ -112,11 +112,30 @@ namespace Au.TS
         [Filter]
         public static bool Filter(MemberInfo mb)
         {
+            Dictionary<string, Type> ignoreMethods = new Dictionary<string, Type>{
+                { "PlayOnGamepad", typeof(AudioSource) },
+                { "DisableGamepadOutput", typeof(AudioSource) },
+                { "SetGamepadSpeakerMixLevel" ,typeof(AudioSource) },
+                { "SetGamepadSpeakerMixLevelDefault", typeof(AudioSource) },
+                { "SetGamepadSpeakerRestrictedAudio", typeof(AudioSource) },
+                { "GamepadSpeakerOutputTyp", typeof(AudioSource) },
+                { "gamepadSpeakerOutputType", typeof(AudioSource) },
+                { "imageContentsHash", typeof(Texture) },
+            };
             if (mb.IsDefined(typeof(JSIgnoreAttribute), false))
             {
                 // Debug.Log($"{mb} is ignore");
                 return true;
             }
+
+            if (ignoreMethods.TryGetValue(mb.Name, out var type))
+            {
+                if (mb.DeclaringType == type)
+                {
+                    return true;
+                }
+            }
+
             if (mb.Name == "OnRebuildRequested")
             {
                 return true;
