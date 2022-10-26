@@ -27,10 +27,17 @@ namespace Au.TS
                 return new Type[]
                 {
                     // unity engine
+                    typeof(ScreenOrientation),
+                    typeof(ScaleMode),
+
                     typeof(Vector2),
                     typeof(Vector3),
                     typeof(Color),
                     typeof(Scene),
+                    typeof(Ray),
+                    typeof(RaycastHit),
+                    typeof(LayerMask),
+
                     typeof(UnityEngine.Object),
                     typeof(Application),
                     typeof(SystemInfo),
@@ -61,8 +68,20 @@ namespace Au.TS
                     typeof(Behaviour),
                     typeof(Animator),
                     typeof(Animation),
+                    typeof(AnimationClip),
                     typeof(UnityEngine.AI.NavMeshAgent),
                     typeof(PointerEventData),
+                    typeof(AnimationCurve),
+                    typeof(Screen),
+                    typeof(Collider),
+                    typeof(Collision),
+                    typeof(CanvasScaler),
+                    typeof(RawImage),
+                    typeof(RenderTexture),  
+                    typeof(Texture),
+                    typeof(AudioListener),
+                    typeof(AudioSource),
+                    typeof(AudioClip),
 
                     typeof(TMP_Text),
                     typeof(TMP_InputField),
