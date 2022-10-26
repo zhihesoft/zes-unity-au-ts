@@ -116,6 +116,7 @@ namespace Au.TS
                 { "PlayOnGamepad", typeof(AudioSource) },
                 { "DisableGamepadOutput", typeof(AudioSource) },
                 { "SetGamepadSpeakerMixLevel" ,typeof(AudioSource) },
+                { "GamepadSpeakerSupportsOutputType", typeof(AudioSource) },
                 { "SetGamepadSpeakerMixLevelDefault", typeof(AudioSource) },
                 { "SetGamepadSpeakerRestrictedAudio", typeof(AudioSource) },
                 { "GamepadSpeakerOutputTyp", typeof(AudioSource) },
